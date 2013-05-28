@@ -4,7 +4,7 @@ package com.oskovran.andride;
  *
  * @author Ondra
  */
-public class DexFile { 
+class DexFile {
     
     private static final int ACC_PUBLIC = 0x1;
     private static final int ACC_PRIVATE = 0x2;
@@ -108,7 +108,7 @@ public class DexFile {
     }
     
     // * * * SAVE * * *
-    public final void save() {
+    final void save() {
 
         File f = new File(len);
     	
