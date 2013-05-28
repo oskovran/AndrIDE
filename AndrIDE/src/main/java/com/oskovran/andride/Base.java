@@ -7,7 +7,7 @@ package com.oskovran.andride;
 
 abstract class Base {
 
-    //Object E;
+    Object E;
     protected Base prev;
     protected Base next;
 
