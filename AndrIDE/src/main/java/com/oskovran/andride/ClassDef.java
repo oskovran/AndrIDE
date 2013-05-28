@@ -17,7 +17,7 @@ class ClassDef extends Item {
     private int static_values_off;
     //
     private final File f;
-    //private final Chain<StringData> string_ids;
+    private Chain<StringData> string_ids;
     private final Chain<FieldId> field_ids;
     private final Chain<MethodId> method_ids;
     //
