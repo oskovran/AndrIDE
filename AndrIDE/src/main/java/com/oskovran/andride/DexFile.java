@@ -45,24 +45,24 @@ class DexFile {
     private static final int VALUE_BOOLEAN = 0x1f;
 
     final Header header_item;
-    final Chain<StringData> string_ids;
-    final Chain<TypeId> type_ids;
-    final Chain<ProtoId> proto_ids;
-    final Chain<FieldId> field_ids;
-    final Chain<MethodId> method_ids;
-    final Chain<ClassDef> class_defs;
+    final ItemChain<StringData> string_ids;
+    final ItemChain<TypeId> type_ids;
+    final ItemChain<ProtoId> proto_ids;
+    final ItemChain<FieldId> field_ids;
+    final ItemChain<MethodId> method_ids;
+    final ItemChain<ClassDef> class_defs;
     
     private int len;
 
     // * * * NEW * * *
     public DexFile() throws Exception {
     	header_item = new Header();
-    	string_ids = new Chain<StringData>();
-        type_ids = new Chain<TypeId>();
-        proto_ids = new Chain<ProtoId>();
-        field_ids = new Chain<FieldId>();
-        method_ids = new Chain<MethodId>();
-        class_defs = new Chain<ClassDef>();
+    	string_ids = new ItemChain<StringData>();
+        type_ids = new ItemChain<TypeId>();
+        proto_ids = new ItemChain<ProtoId>();
+        field_ids = new ItemChain<FieldId>();
+        method_ids = new ItemChain<MethodId>();
+        class_defs = new ItemChain<ClassDef>();
     }
 
     // * * * OPEN * * *
@@ -72,32 +72,32 @@ class DexFile {
     	
     	header_item = new Header(f);
     	
-    	string_ids = new Chain<StringData>();
+    	string_ids = new ItemChain<StringData>();
     	for(int i = 0; i < header_item.string_ids_size; i++) {
             string_ids.add(new StringData(f));
     	}
 
-        type_ids = new Chain<TypeId>();
+        type_ids = new ItemChain<TypeId>();
     	for(int i = 0; i < header_item.type_ids_size; i++) {
             type_ids.add(new TypeId(f, string_ids));
     	}
 
-        proto_ids = new Chain<ProtoId>();
+        proto_ids = new ItemChain<ProtoId>();
     	for(int i = 0; i < header_item.proto_ids_size; i++) {
             proto_ids.add(new ProtoId(f, string_ids, type_ids));
     	}
 
-        field_ids = new Chain<FieldId>();
+        field_ids = new ItemChain<FieldId>();
     	for(int i = 0; i < header_item.field_ids_size; i++) {
             field_ids.add(new FieldId(f, string_ids, type_ids));
     	}
 
-        method_ids = new Chain<MethodId>();
+        method_ids = new ItemChain<MethodId>();
     	for(int i = 0; i < header_item.method_ids_size; i++) {
             method_ids.add(new MethodId(f, string_ids, type_ids, proto_ids));
     	}
 
-        class_defs = new Chain<ClassDef>();
+        class_defs = new ItemChain<ClassDef>();
     	for(int i = 0; i < header_item.class_defs_size; i++) {
             class_defs.add(new ClassDef(f, string_ids, type_ids, field_ids, method_ids));
     	}
