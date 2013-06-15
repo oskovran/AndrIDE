@@ -11,7 +11,7 @@ class MethodId extends Item {
     private ProtoId proto;
     private StringData name;
 
-    MethodId(File f, Chain<StringData> string_ids, Chain<TypeId> type_ids, Chain<ProtoId> proto_ids) {
+    MethodId(File f, ItemChain<StringData> string_ids, ItemChain<TypeId> type_ids, ItemChain<ProtoId> proto_ids) {
         clazz = type_ids.get(f.readUshort());
         proto = proto_ids.get(f.readUshort());
         name = string_ids.get(f.readInt());

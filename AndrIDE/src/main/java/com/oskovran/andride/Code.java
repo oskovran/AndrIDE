@@ -14,7 +14,7 @@ class Code extends Item {
     //private int insns_size;
     ByteCode insns;
     //int padding;
-    Chain<Try> tries;
+    ItemChain<Try> tries;
     EncodedCatchHandlerList handlers;
     
     Code(File f) throws Exception {
@@ -29,7 +29,7 @@ class Code extends Item {
             if((insns_size & 1) == 1) {//padding;
                 f.readUshort();
             }
-            tries = new Chain<Try>();
+            tries = new ItemChain<Try>();
             for(int i = 0; i < tries_size; i++) {
                 tries.add(new Try(f));
             }
@@ -65,12 +65,12 @@ class Code extends Item {
     private class EncodedCatchHandlerList extends Item {
     	
     	int size;
-    	Chain<EncodedCatchHandler> list;
+        ItemChain<EncodedCatchHandler> list;
 
         private EncodedCatchHandlerList(File f) throws Exception {
             size = f.readUleb128();
 
-            list = new Chain<EncodedCatchHandler>();
+            list = new ItemChain<EncodedCatchHandler>();
             for(int i = 0; i < size; i++) {
                 list.add(new EncodedCatchHandler(f));
             }
@@ -84,13 +84,13 @@ class Code extends Item {
     private class EncodedCatchHandler extends Item {
     	
     	int size;
-    	Chain<EncodedTypeAddrPair> handlers;
+        ItemChain<EncodedTypeAddrPair> handlers;
     	int catch_all_addr;
 
         private EncodedCatchHandler(File f) throws Exception {
             size = f.readSleb128();
 
-            handlers = new Chain<EncodedTypeAddrPair>();
+            handlers = new ItemChain<EncodedTypeAddrPair>();
             for(int i = 0; i < (size < 0 ? -size : size); i++) {
                 handlers.add(new EncodedTypeAddrPair(f));
             }

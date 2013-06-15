@@ -17,17 +17,17 @@ class ClassDef extends Item {
     private int static_values_off;
     //
     private final File f;
-    private Chain<StringData> string_ids;
-    private final Chain<FieldId> field_ids;
-    private final Chain<MethodId> method_ids;
+    private ItemChain<StringData> string_ids;
+    private final ItemChain<FieldId> field_ids;
+    private final ItemChain<MethodId> method_ids;
     //
     private ClassData class_data;
 
     ClassDef(File f,
-            Chain<StringData> string_ids,
-            Chain<TypeId> type_ids,
-            Chain<FieldId> field_ids,
-            Chain<MethodId> method_ids) throws Exception {
+            ItemChain<StringData> string_ids,
+            ItemChain<TypeId> type_ids,
+            ItemChain<FieldId> field_ids,
+            ItemChain<MethodId> method_ids) throws Exception {
         this.f = f;
         this.field_ids = field_ids;
         this.method_ids = method_ids;
@@ -57,10 +57,10 @@ class ClassDef extends Item {
         private final int instance_fields_size;// uleb128 the number of instance fields defined in this item
         private final int direct_methods_size;// uleb128 the number of direct methods defined in this item
         private final int virtual_methods_size;// uleb128 the number of virtual methods defined in this item
-        private final Chain<EncodedField> static_fields;// encoded_field[static_fields_size] the defined static fields, represented as a sequence of encoded elements. The fields must be sorted by field_idx in increasing order.
-        private final Chain<EncodedField> instance_fields;// encoded_field[instance_fields_size] the defined instance fields, represented as a sequence of encoded elements. The fields must be sorted by field_idx in increasing order.
-        private final Chain<EncodedMethod> direct_methods;// encoded_method[direct_methods_size] the defined direct (any of static, private, or constructor) methods, represented as a sequence of encoded elements. The methods must be sorted by method_idx in increasing order.
-        private final Chain<EncodedMethod> virtual_methods;// encoded_method[virtual_methods_size] the defined virtual (none of static, private, or constructor) methods, represented as a sequence of encoded elements. This list should not include inherited methods unless overridden by the class that this item represents. The methods must be sorted by method_idx in increasing order
+        private final ItemChain<EncodedField> static_fields;// encoded_field[static_fields_size] the defined static fields, represented as a sequence of encoded elements. The fields must be sorted by field_idx in increasing order.
+        private final ItemChain<EncodedField> instance_fields;// encoded_field[instance_fields_size] the defined instance fields, represented as a sequence of encoded elements. The fields must be sorted by field_idx in increasing order.
+        private final ItemChain<EncodedMethod> direct_methods;// encoded_method[direct_methods_size] the defined direct (any of static, private, or constructor) methods, represented as a sequence of encoded elements. The methods must be sorted by method_idx in increasing order.
+        private final ItemChain<EncodedMethod> virtual_methods;// encoded_method[virtual_methods_size] the defined virtual (none of static, private, or constructor) methods, represented as a sequence of encoded elements. This list should not include inherited methods unless overridden by the class that this item represents. The methods must be sorted by method_idx in increasing order
 
         private ClassData() throws Exception {
             static_fields_size = f.readUleb128();
@@ -68,19 +68,19 @@ class ClassDef extends Item {
             direct_methods_size = f.readUleb128();
             virtual_methods_size = f.readUleb128();
 
-            static_fields = new Chain<EncodedField>();
+            static_fields = new ItemChain<EncodedField>();
             for(int i = 0; i < static_fields_size; i++) {
                 static_fields.add(new EncodedField());
             }
-            instance_fields = new Chain<EncodedField>();
+            instance_fields = new ItemChain<EncodedField>();
             for(int i = 0; i < instance_fields_size; i++) {
                 instance_fields.add(new EncodedField());
             }
-            direct_methods = new Chain<EncodedMethod>();
+            direct_methods = new ItemChain<EncodedMethod>();
             for(int i = 0; i < direct_methods_size; i++) {
                 direct_methods.add(new EncodedMethod());
             }
-            virtual_methods = new Chain<EncodedMethod>();
+            virtual_methods = new ItemChain<EncodedMethod>();
             for(int i = 0; i < virtual_methods_size; i++) {
                 virtual_methods.add(new EncodedMethod());
             }

@@ -11,7 +11,7 @@ class ProtoId extends Item {
     private TypeId return_type;
     private int parameters_off;
 
-    ProtoId(File f, Chain<StringData> string_ids, Chain<TypeId> type_ids) {
+    ProtoId(File f, ItemChain<StringData> string_ids, ItemChain<TypeId> type_ids) {
         shorty = string_ids.get(f.readInt());
         return_type = type_ids.get(f.readInt());
         parameters_off = f.readInt();

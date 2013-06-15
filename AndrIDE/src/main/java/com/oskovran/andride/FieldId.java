@@ -11,7 +11,7 @@ class FieldId extends Item {
     private TypeId type;
     private StringData name;
 
-    FieldId(File f, Chain<StringData> string_ids, Chain<TypeId> type_ids) {
+    FieldId(File f, ItemChain<StringData> string_ids, ItemChain<TypeId> type_ids) {
         clazz = type_ids.get(f.readUshort());
         type = type_ids.get(f.readUshort());
         name = string_ids.get(f.readInt());

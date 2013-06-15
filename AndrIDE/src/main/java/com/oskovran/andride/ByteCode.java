@@ -1,12 +1,12 @@
 package com.oskovran.andride;
 
-class ByteCode extends Chain {
+class ByteCode extends ItemChain {
     
     ByteCode(File f, int insns_size) {
         add(new ByteCodeGrupe(f, insns_size));
     }
 
-    private class ByteCodeGrupe extends Chain {
+    private class ByteCodeGrupe extends ItemChain {
 
         ByteCodeGrupe(File f, int insns_size) {
 
@@ -1117,15 +1117,15 @@ class ByteCode extends Chain {
             }
         }
 
-        private abstract class Format extends Base {
+        private abstract class Format extends Item {
 
-            protected void added() {
+            protected void added(int index) {
             }
 
-            protected void inserted() {
+            protected void inserted(int index) {
             }
 
-            protected void removed() {
+            protected void removed(int index) {
             }
 
             protected void write(File f) {
@@ -1226,23 +1226,8 @@ class ByteCode extends Chain {
         }
         
         @Override
-        protected void added() {
+        protected void added(int index) {
             
-        }
-
-        @Override
-        protected void inserted() {
-
-        }
-        
-        @Override
-        protected void removed() {
-            
-        }
-
-        @Override
-        protected void write(File f) {
-
         }
     }
 }
