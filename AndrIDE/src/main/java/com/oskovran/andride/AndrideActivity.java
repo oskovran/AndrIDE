@@ -1,16 +1,19 @@
 package com.oskovran.andride;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.content.res.AssetManager;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class AndrideActivity extends Activity {
 
-    private static final String LOG_NAME = AndrideActivity.class.getSimpleName();
+    private static final String TAG = AndrideActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +22,9 @@ public class AndrideActivity extends Activity {
 
         // Read the contents of our asset
         try {
-            AssetManager assets = getApplicationContext().getAssets();
-            InputStream is = assets.open("classes.dex");
-            Log.i(LOG_NAME, is.toString());
+            new DexFile(readBytes(getApplicationContext().getAssets().open("classes.dex")));
         } catch(Exception e) {
-            Log.e(LOG_NAME, e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -32,6 +33,24 @@ public class AndrideActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.andride, menu);
         return true;
+    }
+
+    private byte[] readBytes(InputStream inputStream) throws IOException {
+        // this dynamically extends to take the bytes you read
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+        // this is storage overwritten on each iteration with bytes
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        // we need to know how may bytes were read to write them to the byteBuffer
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+
+        // and then we can return your byte array.
+        return byteBuffer.toByteArray();
     }
     
 }

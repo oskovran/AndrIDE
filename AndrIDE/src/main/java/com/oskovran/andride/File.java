@@ -74,28 +74,34 @@ class File {
         for (int j = 0, j_length = chars.length; j < j_length; j++) {
             int data = readUbyte();
             switch (data >> 4) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                            chars[j] = (char)data;
-                            break;
-                    case 12:
-                    case 13:
-                            chars[j] = (char)(((data & 0x1F) << 6) | (readUbyte() & 0x3F));
-                            break;
-                    case 14:
-                            chars[j] = (char)(((data & 0x0F) << 12) | ((readUbyte() & 0x3F) << 6) | (readUbyte() & 0x3F));
-                            break;
-                    default:
-                            throw new Exception();
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    chars[j] = (char)data;
+                    break;
+                case 12:
+                case 13:
+                    chars[j] = (char)(((data & 0x1F) << 6) | (readUbyte() & 0x3F));
+                    break;
+                case 14:
+                    chars[j] = (char)(((data & 0x0F) << 12) | ((readUbyte() & 0x3F) << 6) | (readUbyte() & 0x3F));
+                    break;
+                default:
+                    throw new Exception();
             }
         }
         return new String(chars);
+    }
+
+    String readMUTF82(int stringLength) throws Exception {
+        String str = new String(code, PC, stringLength, "MUTF-8");
+        PC += stringLength;
+        return str;
     }
 
     private void writeUbyte(int value) {

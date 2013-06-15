@@ -1,10 +1,14 @@
 package com.oskovran.andride;
 
+import android.util.Log;
+
 /**
  *
  * @author Ondra
  */
 class DexFile {
+
+    private static final String TAG = DexFile.class.getSimpleName();
     
     private static final int ACC_PUBLIC = 0x1;
     private static final int ACC_PRIVATE = 0x2;
@@ -116,7 +120,7 @@ class DexFile {
     	string_ids.write(f);
 
         f.seal();
-        
-        System.out.println("----------- THE END ------------");
+
+        Log.d(TAG, "----------- THE END ------------");
     }
 }

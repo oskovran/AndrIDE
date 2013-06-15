@@ -3,18 +3,24 @@ package com.oskovran.andride;
 /**
  * Created by oskovran on 6/2/13.
  */
-class ItemChain<T> extends Item {
+class ItemChain<T extends Item> extends Item {
 
     Item first;
+    Item last;
 
     // TODO
-    Item items[] = new Item[10];
+    Item items[] = new Item[32];
 
     private int valid = 0;
 
     void add(T item) {
-        // TODO
-        added(((Item) item).index);
+        if(first == null) {
+            first = last = item;
+        } else {
+            last.insert(item);
+            last = this;
+            item.added(this.index);
+        }
     }
 
     T get(int index) {

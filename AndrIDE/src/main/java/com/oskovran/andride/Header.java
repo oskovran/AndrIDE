@@ -1,10 +1,14 @@
 package com.oskovran.andride;
 
+import android.util.Log;
+
 /**
  *
  * @author Ondra
  */
 class Header {
+
+    private static final String TAG = AndrideActivity.class.getSimpleName();
 
     private static final int TYPE_HEADER_ITEM = 0x0000;//	0x70
     private static final int TYPE_STRING_ID_ITEM = 0x0001;//	0x04
@@ -52,30 +56,54 @@ class Header {
         
     }
 
-    Header(File f) throws Exception {
+    Header(File f) throws Exception {// TODO Exception
+        Log.d(TAG, "MAGIC constructing");
         checkMagic(f);
+        Log.d(TAG, "magic check successfull");
         checksum = f.readInt();
+        Log.d(TAG, "checksum" + " = " + checksum);
         signature = f.read(20);
+        Log.d(TAG, "signature" + " = " + new String(signature));
         file_size = f.readInt();
+        Log.d(TAG, "file_size" + " = " + file_size);
         header_size = f.readInt();
+        Log.d(TAG, "header_size" + " = " + header_size);
         endian_tag = f.readInt();
+        Log.d(TAG, "endian_tag" + " = " + endian_tag);
         link_size = f.readInt();
+        Log.d(TAG, "link_size" + " = " + link_size);
         link_off = f.readInt();
+        Log.d(TAG, "link_off" + " = " + link_off);
         map_off = f.readInt();
+        Log.d(TAG, "map_off" + " = " + map_off);
         string_ids_size = f.readInt();
+        Log.d(TAG, "string_ids_size" + " = " + string_ids_size);
         string_ids_off = f.readInt();
+        Log.d(TAG, "string_ids_off" + " = " + string_ids_off);
         type_ids_size = f.readInt();
+        Log.d(TAG, "type_ids_size" + " = " + type_ids_size);
         type_ids_off = f.readInt();
+        Log.d(TAG, "type_ids_off" + " = " + type_ids_off);
         proto_ids_size = f.readInt();
+        Log.d(TAG, "proto_ids_size" + " = " + proto_ids_size);
         proto_ids_off = f.readInt();
+        Log.d(TAG, "proto_ids_off" + " = " + proto_ids_off);
         field_ids_size = f.readInt();
+        Log.d(TAG, "field_ids_size" + " = " + field_ids_size);
         field_ids_off = f.readInt();
+        Log.d(TAG, "field_ids_off" + " = " + field_ids_off);
         method_ids_size = f.readInt();
+        Log.d(TAG, "method_ids_size" + " = " + method_ids_size);
         method_ids_off = f.readInt();
+        Log.d(TAG, "method_ids_off" + " = " + method_ids_off);
         class_defs_size = f.readInt();
+        Log.d(TAG, "class_defs_size" + " = " + class_defs_size);
         class_defs_off = f.readInt();
+        Log.d(TAG, "class_defs_off" + " = " + class_defs_off);
         data_size = f.readInt();
+        Log.d(TAG, "data_size" + " = " + data_size);
         data_off = f.readInt();
+        Log.d(TAG, "data_off" + " = " + data_off);
     }
 
     void write(File f) {
@@ -113,7 +141,7 @@ class Header {
                 || f.readUbyte() != 0x33
                 || f.readUbyte() != 0x35
                 || f.readUbyte() != 0x00) {
-            throw new Exception();
+            throw new Exception();// TODO
         }
     }
     

@@ -21,12 +21,16 @@ abstract class Item {
     protected abstract void write(File f);
 
     final void insert(Item item) {
-        prev = item.prev;
-        next = item;
-        prev.next = this;
-        item.prev = this;
-        // TODO index
-        inserted(index);
+        if(item != null) {
+            prev = item.prev;
+            next = item;
+            if(prev != null) {
+                prev.next = this;
+            }
+            item.prev = this;
+            // TODO index
+            inserted(index);
+        }
     }
 
     final void remove() {
