@@ -79,11 +79,13 @@ class DexFile {
     	string_ids = new ItemChain<StringData>();
     	for(int i = 0; i < header_item.string_ids_size; i++) {
             string_ids.add(new StringData(f));
+            Log.i("", "string_id(" + i + ") = " + string_ids.get(i));
     	}
 
         type_ids = new ItemChain<TypeId>();
     	for(int i = 0; i < header_item.type_ids_size; i++) {
             type_ids.add(new TypeId(f, string_ids));
+            Log.i("", "type_id(" + i + ") = " + type_ids.get(i));
     	}
 
         proto_ids = new ItemChain<ProtoId>();

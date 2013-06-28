@@ -3,7 +3,8 @@ package com.oskovran.andride;
 /**
  * Created by oskovran on 6/2/13.
  */
-class ItemChain<T extends Item> extends Item {
+class ItemChain<T extends Item> extends Item
+{
 
     Item first;
     Item last;
@@ -13,42 +14,49 @@ class ItemChain<T extends Item> extends Item {
 
     private int valid = 0;
 
-    void add(T item) {
-        if(first == null) {
+    void add(T item)
+    {
+        if(first == null)
+        {
             first = last = item;
-        } else {
+        }
+        else
+        {
             last.insert(item);
-            last = this;
+            last = item;
             item.added(this.index);
         }
     }
 
-    T get(int index) {
+    T get(int index)
+    {
         Item item = first;
-        for(int i = 0; i <= index; i++) {
+
+        for(int i = 0; i < index; i++)
+        {
             item = item.next;
         }
+
         return (T) item;
     }
 
-    protected void added(int index) {
+    protected void added(int index)
+    {
 
     }
 
-    protected final void inserted(int index) {
+    protected final void inserted(int index)
+    {
 
     }
 
-    protected final void removed(int index) {
+    protected final void removed(int index)
+    {
 
     }
 
     protected void write(File f) {
 
-    }
-
-    private final void reindex() {
-        // TODO
     }
 
 }

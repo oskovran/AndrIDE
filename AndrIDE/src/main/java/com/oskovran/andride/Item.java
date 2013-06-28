@@ -5,8 +5,8 @@ package com.oskovran.andride;
  * @author Ondra
  */
 
-abstract class Item {
-
+abstract class Item
+{
     Object E;
 
     protected Item prev;
@@ -20,27 +20,34 @@ abstract class Item {
 
     protected abstract void write(File f);
 
-    final void insert(Item item) {
-        if(item != null) {
-            prev = item.prev;
-            next = item;
-            if(prev != null) {
-                prev.next = this;
-            }
+    final void insert(Item item)
+    {
+        if(item != null)
+        {
             item.prev = this;
-            // TODO index
+            item.next = next;
+            if(next != null)
+            {
+                next.prev = this;
+            }
+            next = item;
+
             inserted(index);
         }
     }
 
-    final void remove() {
-        if(prev != null) {
+    final void remove()
+    {
+        if(prev != null)
+        {
             prev.next = next;
         }
-        if(next != null) {
+
+        if(next != null)
+        {
             next.prev = prev;
         }
-        // TODO index
+
         removed(index);
     }
 }
