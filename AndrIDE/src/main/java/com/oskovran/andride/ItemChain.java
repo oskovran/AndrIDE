@@ -5,12 +5,10 @@ package com.oskovran.andride;
  */
 class ItemChain<T extends Item> extends Item
 {
-
     Item first;
     Item last;
 
-    // TODO
-    Item items[] = new Item[32];
+    private final Item items[] = new Item[5120];
 
     private int valid = 0;
 
