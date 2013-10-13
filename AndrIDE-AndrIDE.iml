@@ -3,8 +3,9 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
-        <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="SELECTED_BUILD_VARIANT" value="Debug" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
+        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleTest" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/AndrIDE/build/source/aidl/debug" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
@@ -18,7 +19,8 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/AndrIDE/build/classes/debug" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/AndrIDE">
       <sourceFolder url="file://$MODULE_DIR$/AndrIDE/build/source/r/debug" isTestSource="false" />

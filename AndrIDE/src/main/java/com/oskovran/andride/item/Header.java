@@ -1,6 +1,8 @@
-package com.oskovran.andride;
+package com.oskovran.andride.item;
 
 import android.util.Log;
+
+import com.oskovran.andride.AndrideActivity;
 
 /**
  *
@@ -57,53 +59,29 @@ class Header {
     }
 
     Header(File f) throws Exception {// TODO Exception
-        Log.d(TAG, "MAGIC constructing");
         checkMagic(f);
-        Log.d(TAG, "magic check successfull");
         checksum = f.readInt();
-        Log.d(TAG, "checksum" + " = " + checksum);
         signature = f.read(20);
-        Log.d(TAG, "signature" + " = " + new String(signature));
         file_size = f.readInt();
-        Log.d(TAG, "file_size" + " = " + file_size);
         header_size = f.readInt();
-        Log.d(TAG, "header_size" + " = " + header_size);
         endian_tag = f.readInt();
-        Log.d(TAG, "endian_tag" + " = " + endian_tag);
         link_size = f.readInt();
-        Log.d(TAG, "link_size" + " = " + link_size);
         link_off = f.readInt();
-        Log.d(TAG, "link_off" + " = " + link_off);
         map_off = f.readInt();
-        Log.d(TAG, "map_off" + " = " + map_off);
         string_ids_size = f.readInt();
-        Log.d(TAG, "string_ids_size" + " = " + string_ids_size);
         string_ids_off = f.readInt();
-        Log.d(TAG, "string_ids_off" + " = " + string_ids_off);
         type_ids_size = f.readInt();
-        Log.d(TAG, "type_ids_size" + " = " + type_ids_size);
         type_ids_off = f.readInt();
-        Log.d(TAG, "type_ids_off" + " = " + type_ids_off);
         proto_ids_size = f.readInt();
-        Log.d(TAG, "proto_ids_size" + " = " + proto_ids_size);
         proto_ids_off = f.readInt();
-        Log.d(TAG, "proto_ids_off" + " = " + proto_ids_off);
         field_ids_size = f.readInt();
-        Log.d(TAG, "field_ids_size" + " = " + field_ids_size);
         field_ids_off = f.readInt();
-        Log.d(TAG, "field_ids_off" + " = " + field_ids_off);
         method_ids_size = f.readInt();
-        Log.d(TAG, "method_ids_size" + " = " + method_ids_size);
         method_ids_off = f.readInt();
-        Log.d(TAG, "method_ids_off" + " = " + method_ids_off);
         class_defs_size = f.readInt();
-        Log.d(TAG, "class_defs_size" + " = " + class_defs_size);
         class_defs_off = f.readInt();
-        Log.d(TAG, "class_defs_off" + " = " + class_defs_off);
         data_size = f.readInt();
-        Log.d(TAG, "data_size" + " = " + data_size);
         data_off = f.readInt();
-        Log.d(TAG, "data_off" + " = " + data_off);
     }
 
     void write(File f) {
@@ -130,6 +108,8 @@ class Header {
         f.writeInt(class_defs_off);
         f.writeInt(data_size);
         f.writeInt(data_off);
+
+        Log.i(TAG, this.toString());
     }
 
     private void checkMagic(File f) throws Exception {
@@ -147,6 +127,27 @@ class Header {
     
     @Override
     public String toString() {
-        return "Header.toString TODO";
+        return "checksum" + "=" + checksum + "\n" +
+               "signature" + "=" + new String(signature) + "\n" +
+               "file_size" + "=" + file_size + "\n" +
+               "header_size" + "=" + header_size + "\n" +
+               "endian_tag" + "=" + endian_tag + "\n" +
+               "link_size" + "=" + link_size + "\n" +
+               "link_off" + "=" + link_off + "\n" +
+               "map_off" + "=" + map_off + "\n" +
+               "string_ids_size" + "=" + string_ids_size + "\n" +
+               "string_ids_off" + "=" + string_ids_off + "\n" +
+               "type_ids_size" + "=" + type_ids_size + "\n" +
+               "type_ids_off" + "=" + type_ids_off + "\n" +
+               "proto_ids_size" + "=" + proto_ids_size + "\n" +
+               "proto_ids_off" + "=" + proto_ids_off + "\n" +
+               "field_ids_size" + "=" + field_ids_size + "\n" +
+               "field_ids_off" + "=" + field_ids_off + "\n" +
+               "method_ids_size" + "=" + method_ids_size + "\n" +
+               "method_ids_off" + "=" + method_ids_off + "\n" +
+               "class_defs_size" + "=" + class_defs_size + "\n" +
+               "class_defs_off" + "=" + class_defs_off + "\n" +
+               "data_size" + "=" + data_size + "\n" +
+               "data_off" + "=" + data_off;
     }
 }

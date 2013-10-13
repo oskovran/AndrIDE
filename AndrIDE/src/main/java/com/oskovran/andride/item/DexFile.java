@@ -1,4 +1,4 @@
-package com.oskovran.andride;
+package com.oskovran.andride.item;
 
 import android.util.Log;
 
@@ -6,8 +6,8 @@ import android.util.Log;
  *
  * @author Ondra
  */
-class DexFile {
-
+public class DexFile
+{
     private static final String TAG = DexFile.class.getSimpleName();
     
     private static final int ACC_PUBLIC = 0x1;
@@ -49,64 +49,41 @@ class DexFile {
     private static final int VALUE_BOOLEAN = 0x1f;
 
     final Header header_item;
-    final ItemChain<StringData> string_ids;
-    final ItemChain<TypeId> type_ids;
-    final ItemChain<ProtoId> proto_ids;
-    final ItemChain<FieldId> field_ids;
-    final ItemChain<MethodId> method_ids;
-    final ItemChain<ClassDef> class_defs;
+    final ItemGroup<StringId> string_ids;
+    final ItemGroup<TypeId> type_ids;
+    final ItemGroup<ProtoId> proto_ids;
+    final ItemGroup<FieldId> field_ids;
+    final ItemGroup<MethodId> method_ids;
+    final ItemGroup<ClassDef> class_defs;
     
     private int len;
 
     // * * * NEW * * *
-    public DexFile() throws Exception {
+    /*
+    public DexFile() throws Exception
+    {
     	header_item = new Header();
-    	string_ids = new ItemChain<StringData>();
-        type_ids = new ItemChain<TypeId>();
-        proto_ids = new ItemChain<ProtoId>();
-        field_ids = new ItemChain<FieldId>();
-        method_ids = new ItemChain<MethodId>();
-        class_defs = new ItemChain<ClassDef>();
+        new ItemCompany<TypeId>();
+        new ItemCompany<ProtoId>();
+        new ItemCompany<FieldId>();
+        new ItemCompany<MethodId>();
+        new ItemCompany<ClassDef>();
     }
+    */
 
     // * * * OPEN * * *
-    public DexFile(byte[] Code) throws Exception {
-    	
+    public DexFile(byte[] Code) throws Exception
+    {
     	File f = new File(Code);
     	
     	header_item = new Header(f);
-    	
-    	string_ids = new ItemChain<StringData>();
-    	for(int i = 0; i < header_item.string_ids_size; i++) {
-            string_ids.add(new StringData(f));
-            Log.i("", "string_id(" + i + ") = " + string_ids.get(i));
-    	}
 
-        type_ids = new ItemChain<TypeId>();
-    	for(int i = 0; i < header_item.type_ids_size; i++) {
-            type_ids.add(new TypeId(f, string_ids));
-            Log.i("", "type_id(" + i + ") = " + type_ids.get(i));
-    	}
-
-        proto_ids = new ItemChain<ProtoId>();
-    	for(int i = 0; i < header_item.proto_ids_size; i++) {
-            proto_ids.add(new ProtoId(f, string_ids, type_ids));
-    	}
-
-        field_ids = new ItemChain<FieldId>();
-    	for(int i = 0; i < header_item.field_ids_size; i++) {
-            field_ids.add(new FieldId(f, string_ids, type_ids));
-    	}
-
-        method_ids = new ItemChain<MethodId>();
-    	for(int i = 0; i < header_item.method_ids_size; i++) {
-            method_ids.add(new MethodId(f, string_ids, type_ids, proto_ids));
-    	}
-
-        class_defs = new ItemChain<ClassDef>();
-    	for(int i = 0; i < header_item.class_defs_size; i++) {
-            class_defs.add(new ClassDef(f, string_ids, type_ids, field_ids, method_ids));
-    	}
+        string_ids = ItemHelper.news(StringId.class, this, f, header_item.string_ids_size);
+        type_ids = ItemHelper.news(TypeId.class, this, f, header_item.type_ids_size);
+        proto_ids = ItemHelper.news(ProtoId.class, this, f, header_item.proto_ids_size);
+        field_ids = ItemHelper.news(FieldId.class, this, f, header_item.field_ids_size);
+        method_ids = ItemHelper.news(MethodId.class, this, f, header_item.method_ids_size);
+        class_defs = ItemHelper.news(ClassDef.class, this, f, header_item.class_defs_size);
 
         len = Code.length;
         //test
@@ -114,15 +91,19 @@ class DexFile {
     }
     
     // * * * SAVE * * *
-    final void save() {
-
+    final void save()
+    {
         File f = new File(len);
     	
     	header_item.write(f);
-    	string_ids.write(f);
 
         f.seal();
 
         Log.d(TAG, "----------- THE END ------------");
+    }
+
+    protected void write(File f)
+    {
+
     }
 }

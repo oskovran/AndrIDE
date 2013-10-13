@@ -1,38 +1,39 @@
-package com.oskovran.andride;
+package com.oskovran.andride.item;
 
 /**
  *
  * @author Ondra
  */
 
-abstract class Item
+final class Item<T extends ItemInterface>
 {
     Object E;
 
-    protected Item prev;
-    protected Item next;
+    Item<T> prev;
+    Item<T> next;
+    final T thiz;
 
-    protected int index;
+    Item(Class<T> clazz, final DexFile dex, final File f) throws Exception
+    {
+        this.thiz = clazz.newInstance();
+        this.thiz.init(dex, f);
+    }
 
-    protected void added(int index) {}
-    protected void inserted(int index) {}
-    protected void removed(int index) {}
-
-    protected abstract void write(File f);
-
-    final void insert(Item item)
+    final void insert(Item<T> item)
     {
         if(item != null)
         {
             item.prev = this;
             item.next = next;
+
             if(next != null)
             {
                 next.prev = this;
             }
+
             next = item;
 
-            inserted(index);
+            item.thiz.inserted();
         }
     }
 
@@ -48,6 +49,6 @@ abstract class Item
             next.prev = prev;
         }
 
-        removed(index);
+        thiz.removed();
     }
 }

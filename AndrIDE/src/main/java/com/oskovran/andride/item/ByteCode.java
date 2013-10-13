@@ -1,14 +1,22 @@
-package com.oskovran.andride;
+package com.oskovran.andride.item;
 
-class ByteCode extends ItemChain implements dalvik.bytecode.Opcodes
+class ByteCode implements dalvik.bytecode.Opcodes
 {
     ByteCode(File f, int insns_size)
     {
-        add(new ByteCodeGrupe(f, insns_size));
+        new ByteCodeGrupe(f, insns_size);
     }
 
-    private class ByteCodeGrupe extends ItemChain
+    private class ByteCodeGrupe implements ItemInterface
     {
+        @Override
+        public void init(final DexFile dex, final File f)
+        {
+
+        }
+
+        private void add(ItemInterface i) {}
+
         ByteCodeGrupe(File f, int insns_size)
         {
             System.out.println ("BCG_______________________________"+insns_size);
@@ -1154,22 +1162,36 @@ class ByteCode extends ItemChain implements dalvik.bytecode.Opcodes
             }
         }
 
-        private abstract class Format extends Item
+        private abstract class Format implements ItemInterface
         {
-            protected void added(int index)
+            @Override
+            public void init(DexFile dex, final File f)
             {
+
             }
 
-            protected void inserted(int index)
+            @Override
+            public void added()
             {
+
             }
 
-            protected void removed(int index)
+            @Override
+            public void inserted()
             {
+
             }
 
-            protected void write(File f)
+            @Override
+            public void removed()
             {
+
+            }
+
+            @Override
+            public void write(File f)
+            {
+
             }
         }
 
@@ -1282,11 +1304,29 @@ class ByteCode extends ItemChain implements dalvik.bytecode.Opcodes
                 return ins5;
             }
         }
-        
+
         @Override
-        protected void added(int index)
+        public void added()
         {
-            
+
+        }
+
+        @Override
+        public void inserted()
+        {
+
+        }
+
+        @Override
+        public void removed()
+        {
+
+        }
+
+        @Override
+        public void write(File f)
+        {
+
         }
     }
 }

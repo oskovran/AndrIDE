@@ -1,77 +1,100 @@
-package com.oskovran.andride;
+package com.oskovran.andride.item;
 
 /**
  *
  * @author Ondra
  */
 
-class File {
+public class File
+{
+    private final byte[] code;
+    public int PC = 0;
 
-    private byte[] code;
-    int PC = 0;
-
-    File(int length) {
+    File(final int length)
+    {
         code = new byte[length];
     }
 
-    File(final byte[] code) {
+    File(final byte[] code)
+    {
         this.code = code;
     }
 
-    private byte[] get() {
+    private byte[] get()
+    {
         return code;
     }
 
-    int readUbyte() {
+    int readUbyte()
+    {
         return code[PC++] & 255;
     }
 
-    int readUshort() {
+    public int readUshort()
+    {
         return  (code[PC++] & 255) | ((code[PC++] & 255) << 8);
     }
 
-    int readInt() {
+    public int readInt()
+    {
         return (code[PC++] & 255) | ((code[PC++] & 255) << 8) | ((code[PC++] & 255) << 16) | (code[PC++] << 24);
     }
 
-    int readSleb128() throws Exception {
+    public int readSleb128() throws Exception
+    {
         int number = 0;
         int shift = 0;
-        for(int i = 0; i < 5; i++) {//CHECKIT
-                int tmp = code[PC++];
-                number |= (tmp & 127) << shift;
-                shift += 7;
-                if((tmp & 128) == 0) {
-                        return (number << (32 - shift)) >> (32 - shift);
-                }
-        }
-        throw new Exception("LEB128");
-    }
 
-    int readUleb128() throws Exception {
-        int number = 0;
-        int shift = 0;
-        for(int i = 0; i < 5; i++) {//CHECKIT
+        for(int i = 0; i < 5; i++)
+        {// CHECKIT
             int tmp = code[PC++];
             number |= (tmp & 127) << shift;
             shift += 7;
-            if((tmp & 128) == 0) {
+
+            if((tmp & 128) == 0)
+            {
+                return (number << (32 - shift)) >> (32 - shift);
+            }
+        }
+
+        throw new Exception("LEB128");
+    }
+
+    public int readUleb128() throws Exception
+    {
+        int number = 0;
+        int shift = 0;
+
+        for(int i = 0; i < 5; i++)
+        {//CHECKIT
+            int tmp = code[PC++];
+            number |= (tmp & 127) << shift;
+            shift += 7;
+
+            if((tmp & 128) == 0)
+            {
                 return number;
             }
         }
+
         throw new Exception();
     }
 
-    byte[] read(int length) {
+    byte[] read(int length)
+    {
         byte[] data = new byte[length];
         System.arraycopy(code, PC, data, 0, length);
         PC += length;
+
         return data;
     }
 
-    String readMUTF8(int stringLength) throws Exception {
+    public String readMUTF8(int stringLength) throws Exception
+    {
         char[] chars = new char[stringLength];
-        for (int j = 0, j_length = chars.length; j < j_length; j++) {
+
+        for (int j = 0, j_length = chars.length; j < j_length; j++)
+        {
             int data = readUbyte();
             switch (data >> 4) {
                 case 0:
@@ -95,32 +118,39 @@ class File {
                     throw new Exception();
             }
         }
+
         return new String(chars);
     }
 
-    String readMUTF82(int stringLength) throws Exception {
+    String readMUTF82(int stringLength) throws Exception
+    {
         String str = new String(code, PC, stringLength, "MUTF-8");
         PC += stringLength;
+
         return str;
     }
 
-    private void writeUbyte(int value) {
+    private void writeUbyte(int value)
+    {
         code[PC++] = (byte) value;
     }
 
-    private void writeUshort(int value) {
+    private void writeUshort(int value)
+    {
         code[PC++] = (byte) value;
         code[PC++] = (byte) (value >> 8);
     }
 
-    void writeInt(int value) {
+    void writeInt(int value)
+    {
         code[PC++] = (byte) value;
         code[PC++] = (byte) (value >> 8);
         code[PC++] = (byte) (value >> 16);
         code[PC++] = (byte) (value >> 24);
     }
 
-    void write(byte[] code) {
+    void write(byte[] code)
+    {
         System.arraycopy(code, 0, this.code, PC, code.length);
         PC += code.length;
     }
@@ -128,18 +158,21 @@ class File {
     private int[] PCs = new int[16];
     private int PCl = 0;
 
-    void push(int PC) {
+    public void push(int PC)
+    {
         PCs[PCl] = this.PC;
         this.PC = PC;
         PCl++;
     }
 
-    void pop() {
+    public void pop()
+    {
         PCl--;
         PC = PCs[PCl];
     }
 
-    void seal() {// TODO
+    void seal()
+    {// TODO
         PC = 0;
     }
 }
